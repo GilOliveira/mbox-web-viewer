@@ -85,14 +85,16 @@ const parseMboxFile = filename => {
   const mbox = new Mbox(filename);
 
   mbox.on("message", async raw => {
-    const email = await simpleParser(raw);
-    const to = email.to.value[0].address;
+    try {
+      const email = await simpleParser(raw);
+      const to = email.to.value[0].address;
 
-    if (!emails[to]) {
-      emails[to] = [];
-    }
+      if (!emails[to]) {
+        emails[to] = [];
+      }
 
-    emails[to].push(email);
+      emails[to].push(email);
+    } catch(e){};
   });
 };
 
